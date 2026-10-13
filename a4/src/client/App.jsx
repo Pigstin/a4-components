@@ -17,7 +17,6 @@ function App() {
             headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(Object.fromEntries(e)) 
         })
-		// alert(`You searched for '${formData}'`);
 		refresh();
 	}
 
@@ -28,13 +27,28 @@ function App() {
 				<td>{data["entry"]}</td>
 				<td>{fancifyTime(data["deadline"])}</td>
 				<td>{data["priority"]}</td>
-				<td>{data["order"]}</td>
+				<td>{data["order"]+1}</td>
+				<td><button data-order={data["order"]} onClick={delData}>delete</button></td>
 			</tr>
 			)		
 		})
 
 		return tmp
 	}
+
+	const delData = async function(event) {
+		// gets the number attached to the attribute
+		// console.log(event.target.getAttribute("data-order"))
+		const json = {index:`${event.target.getAttribute("data-order")}`}
+		const body = JSON.stringify(json)
+
+		const response = await fetch('/delete', {method:'POST', headers: { 'Content-Type': 'application/json' }, body})
+		const text = await response.text()
+
+		console.log( 'response:\n', text )
+		refresh()
+	}
+
 	
 	async function refresh() {
 		const response = await fetch(`/data`, {

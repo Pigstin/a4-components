@@ -46,6 +46,12 @@ app.get('/data', (req, res) => {
   res.send(JSON.stringify(data))
 })
 
+app.post('/delete', (req, res) => {
+  console.log(req.body) 
+  data.splice(req.body.index, 1) 
+  res.end()
+})
+
 orderData();
 ViteExpress.listen(app, port, () =>
   console.log(`Server is listening on port ${port}...`),

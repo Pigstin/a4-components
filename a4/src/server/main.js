@@ -32,7 +32,7 @@ app.get("/hello", (req, res) => {
 app.post('/data', (req, res) => {
   console.log(req.body)
   let newdata = { 
-    entry : req.body["entry"], 
+    entry : req.body["entryname"], 
     deadline : req.body["deadline"], 
     priority : req.body["priority"], 
     order : -1

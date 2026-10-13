@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { fancifyTime } from "./util";
 import "./App.css";
 
 function App() {
 	const [serverData, setData] = useState([]);
+	const [pageLoaded, setPageLoaded] = useState(false);
 
 	const current = fancifyTime(Date.now())
 
@@ -21,7 +22,6 @@ function App() {
 	}
 
 	function populateTable(data) {
-		console.log(serverData)
 		let tmp = serverData.map(data => {
 			return (
 			<tr>
@@ -42,9 +42,16 @@ function App() {
             headers: { 'Content-Type': 'application/json' }
         })
 		// console.log(response.json())
-		console.log(serverData)
+		// console.log(serverData)
 		setData(await response.json())
 	}
+
+	useEffect(() => {
+		if(pageLoaded) return
+		setPageLoaded(true)
+		console.log("page loaded!")
+		refresh();
+	})
 
 	return (
 		<div className="tableHolder">
